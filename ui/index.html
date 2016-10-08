@@ -1,17 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
-    <head>
-        <link href="/ui/style.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="center">
-            <img src="/ui/madi.png" class="img-medium"/>
-        </div>
-        <br>
-        <div class="center text-big bold">
-            Hi!
-        </div>
-        <script type="text/javascript" src="/ui/main.js">
-        </script>
-    </body>
+	<head>
+
+		<link type="text/css" rel="stylesheet" href="stylesheet.css">
+		<title>Main page</title>
+		
+		<script>
+			var canvasRight = document.getElementById("canvas-right");
+			var canvasLeft = document.getElementById("canvas-Left");
+			
+		</script>
+	
+	</head>
+	
+	<body style = "background-color: honeydew">
+		
+		<div class = "container">
+			<meta name = "viewport" content = "width=device-width, initial-scale=1"/>
+			<h1 class="fancy"> 
+				Hello
+			</h1>
+
+			<canvas id="canvas-right" width="50px" height="50px"></canvas>
+			<canvas id="canvas-left" width="50px" height="50px"></canvas>
+			
+			<div>
+			
+				<p class="fancy">this is a highly basic web-app</p>
+				<br>
+				<hr class = "style5">
+				<p style="text-align: -webkit-left; font-size: 30px; font-family: sans-serif">
+					Given below is a guide to all the resources on this website
+					<ul class="unorderedList">
+						<li><a href="/madi" style="color: brown; text-decoration: none;">Meet Madi the dinosaur</a></li>
+						<li><a href="/Koala" style="text-decoration: none;color: brown;">and his friend Koala</a></li>
+						<li><a href="/Foo" style="text-decoration: none;color: brown;">and their loyal dog Foo</a></li>
+					</ul>
+				</p>
+				<hr class = "style5">
+				<br>
+				<br>
+			
+			</div>
+
+		</div>
+			
+	</body>
+
 </html>
