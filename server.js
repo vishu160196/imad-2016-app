@@ -104,12 +104,12 @@ app.get("/main.js", function(req, res){
     res.sendFile(path.join(__dirname, "ui", "madi.html"));
 });*/
 
-var comments = [];
+/*var comments = [];
 app.get("/submit_comment", function(req, res){
     var comment = req.query.comment;
     comments.push(comment);
     res.send(JSON.stringify(comments));
-})
+})*/
 
 app.get("/Koala", function(req, res){
     res.sendFile(path.join(__dirname, "ui", "Koala.html"));
