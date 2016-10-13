@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        The loyal dog Foo
+    </title>
+    <link type="text/css" rel="stylesheet" href="/stylesheet.css">
+    <script type="text/javascript" src="/main.js"></script>
+</head>
+
+<body style="background-color: honeydew" onpageshow="requestComments()">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div class="container">
+        <h1 class="fancy" style="font-size: 67px; text-align: left;">
+            The loyal dog Foo
+            <img class="image" src="/foo.jpg">
+        </h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <hr class="style5">
+        <br>
+        <br>
+        <p class="paragraph" style="font-family:cursive">
+            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* 
+            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* 
+            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* 
+            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* 
+            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
+        </p>
+        
+        <h1 class="fancy" style="font-size: 67px; text-align: left;">
+            The above translates as
+        </h1>
+        
+        <p class="paragraph">
+            Oh yeah!! so hi all, the name's foo, and probably you know me too!!! that rhymes bub doesn't it? thankyou, thankyou I know I
+            am cool!!!! So I heard the dev's making his first webapp, and decided to jump in too. Trust me bro this guy is way cooler than 
+            you can imagine. He started his journey with POP and is now jumping to OOP (a natural progression isn't it). He has made some really
+            cool stuff and is on a rampage when it comes to programming. Oh and yes I heard madi saying there's some animation on the main page
+            !? I didn't see any.....maybe the dev's having a hard time with animations, though i did see 2 canvases on the main page.......
+        </p>
+
+        <p class="paragraph">
+            So if you wanna party hard and code harder press the LIKE button below and don't forget to mention a comment about the cool guy
+            I've been talking of for so long!!!! *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*!!!!!
+        </p>
+
+        <p class="paragraph">
+            P.S. The last few lines cannot be translated since they contain strong language which is inappropriate to display.....This dog is a
+            real riot.
+        </p>
+        <br>
+        <br>
+        <br>
+        <hr class="style5">
+        <br>
+        <div class="like">
+            <button class="likeButton buttonStyle" onclick="requestLikeEndPoint()">Like <img src="/like.png" width="20" height="20"></button>
+            <span id="likespan">${likes} Likes</span>
+        </div>
+
+        <div class="comments">
+            <br>
+            <div id="placeholderReplace">
+                <textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()" onblur="placeholderReplace()"></textarea>
+            </div>
+            <br />
+            <br />
+            <div id="appearCommentButton" style="float:left">
+            </div>
+            <br>
+            <hr style="margin-right:40px" />
+            <br>
+            <br />
+
+            <span id="prev_comments">
+            </span>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+</body>
+</html>
