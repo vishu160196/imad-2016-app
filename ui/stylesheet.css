@@ -6,7 +6,7 @@
     color: #0000cd;
     font-size: 35px;
     margin-top: auto;
-    text-align: -webkit-center;
+    text-align: center;
     font-weight: bolder;
 }
 
@@ -44,12 +44,7 @@
     margin: 0 auto;
 }
 
-.image-madi
-{
-    width: 166px;
-    height: 166px;
-    float: right;
-}
+
 
 .style5
 {
@@ -96,7 +91,7 @@
     border: 1px solid black;
 }
 
-.paragraph-madi
+.paragraph
 {
     text-align: left;
     font-family: sans-serif;
@@ -116,7 +111,7 @@
     font-family: monospace;
 }
 
-.commentsBox
+#commentsBox
 {
     background-color: lightgrey;
     resize: none;
@@ -127,18 +122,23 @@
     transition: height 0.5s;
 }
 
-.commentsBox:focus
+#commentsBox:focus
 {
-    height: 100px;
+    height: 30px;
     background-color: papayawhip;
 }
 
-#commentButton
+#prev_comments
 {
-
+    color: cornsilk;
+    font-size: 18px;
+    font-family: cursive;
 }
 
 .comments
 {
-    list-style-image: url("person");
+    padding-left: 22px;
+    max-width: 458px;
+    background-color: dimgrey;
 }
+
