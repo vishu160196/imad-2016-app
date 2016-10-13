@@ -1,11 +1,9 @@
-function requestLikeEndPoint()
-{
+// JavaScript source code
+function requestLikeEndPoint() {
     var request = new XMLHttpRequest;
 
-    function displayLikes()
-    {
-        if(request.readyState === XMLHttpRequest.DONE && request.status === 200)
-        {
+    function displayLikes() {
+        if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
             var likespan = document.getElementById("likespan");
             likespan.innerHTML = request.responseText + " Likes";
         }
@@ -13,19 +11,18 @@ function requestLikeEndPoint()
 
     request.onreadystatechange = displayLikes;
 
-    request.open("GET", "/madi/like", true);
+    request.open("GET", "/koala/like", true);
     request.send(null);
 }
 
-function submitComment(){
+function submitComment() {
     var comment = document.getElementById("commentsBox");
     var request = new XMLHttpRequest;
 
     comment = comment.value;
 
     request.onreadystatechange = function () {
-        if (request.readyState === XMLHttpRequest.DONE && request.status === 200)
-        {
+        if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
             var prev_comments = JSON.parse(request.responseText);
 
             var comments = document.getElementById("prev_comments");
@@ -41,11 +38,20 @@ function submitComment(){
         }
     }
 
-    request.open("GET", "/madi/submit_comment?comment=" + comment, true);
+    request.open("GET", "/koala/submit_comment?comment=" + comment, true);
     request.send(null);
 }
 
+function appearCommentButton() {
+    var commentButton = document.getElementById("appearCommentButton");
 
+    commentButton.innerHTML = `<button class="buttonStyle" id="commentButton" onclick="submitComment()">Comment</button>`;
+}
+
+function placeholderReplace() {
+    var placeHolder = document.getElementById("placeholderReplace");
+    placeHolder.innerHTML = `<textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()"></textarea>`;
+}
 
 function requestComments() {
     var request = new XMLHttpRequest;
@@ -67,19 +73,6 @@ function requestComments() {
 
     request.onreadystatechange = displayComments;
 
-    request.open("GET", "/madi/submit_comment?comment=", true);
+    request.open("GET", "/koala/submit_comment?comment=", true);
     request.send(null);
-}
-
-
-function appearCommentButton()
-{
-    var commentButton = document.getElementById("appearCommentButton");
-
-    commentButton.innerHTML = `<button class="buttonStyle" id="commentButton" onclick="submitComment()">Comment</button>`;
-}
-
-function placeholderReplace() {
-    var placeHolder = document.getElementById("placeholderReplace");
-    placeHolder.innerHTML = `<textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()"></textarea>`;
 }
