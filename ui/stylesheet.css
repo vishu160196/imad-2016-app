@@ -1,5 +1,8 @@
+body
+{
+    background-color: floralwhite;
+}
 
-/*Define your CSS class .fancy below!*/
 .fancy
 {
     font-family: cursive;
@@ -9,6 +12,7 @@
     text-align: center;
     font-weight: bolder;
 }
+
 
 .buttonStyle
 {
@@ -25,14 +29,14 @@
     cursor: pointer;
 }
 
-.likeButton
+#likeButton
 {
     background-color: honeydew;
     border: 2px solid #4CAF50;
     color: black;
 }
 
-.likeButton:hover
+#likeButton:hover
 {
     background-color: darkred;
     color: white;
@@ -40,8 +44,9 @@
 
 .container
 {
-    max-width: 900px; 
+    max-width: 80%;
     margin: 0 auto;
+    padding-top: 260px;
 }
 
 
@@ -77,19 +82,6 @@
     font-size: 22px;
 }
 
-#canvas-right
-{
-    float: right;
-    margin: 0 auto;
-    border: 1px solid black;
-}
-
-#canvas-left
-{
-    float: left;
-    margin: 0 auto;
-    border: 1px solid black;
-}
 
 .paragraph
 {
@@ -109,11 +101,9 @@
 {
     padding-right: 14px;
     font-family: monospace;
-    font-weight: bold;
-    color: salmon;
 }
 
-#commentsBox
+#feedback
 {
     background-color: lightgrey;
     resize: none;
@@ -124,13 +114,13 @@
     transition: height 0.5s;
 }
 
-#commentsBox:focus
+#feedback:focus
 {
     height: 30px;
     background-color: papayawhip;
 }
 
-#prev_comments
+#prevFeedbacks
 {
     color: cornsilk;
     font-size: 18px;
@@ -140,7 +130,113 @@
 .comments
 {
     padding-left: 22px;
-    max-width: 590px;
-    background-color: dimgrey;
+    max-width: 458px;
+    background-color: goldenrod;
 }
 
+header 
+{
+    background-color: yellowgreen;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+    width: 100%;
+    top:0;
+}
+
+.button_group
+{
+    float: left;
+    border: none;
+    text-decoration: none;
+    background-color: chartreuse;
+    padding: 15px 32px;
+    cursor: pointer;
+    font-size: 16px;
+    color: crimson;
+}
+
+.navigation
+{
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 25px;
+    color: navy;
+    cursor: pointer;
+    padding: 10px 30px 10px 30px;
+}
+
+.cars
+{
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+.cars:hover
+{
+    background-color: palegreen;
+}
+
+.cars-content
+{
+    display: none;
+    background-color: palegreen;
+    position: absolute;
+    left: 0px;
+    top: 49px;
+    min-width: 100%;
+    text-align: center;
+    border-top-color: beige;
+    border-top-style: ridge;
+    border-top-width: 2px;
+}
+
+.cars:hover .cars-content
+{
+    display: block;
+    box-shadow: 15px 16px 10px 0px rgba(0,0,0,0.2);
+}
+
+.cars-content a
+{
+    color: navy;
+    display: block;
+    padding: 5px 0px;
+    text-decoration: none;
+    font-size: 20px;
+
+}
+
+.cars-content a:hover
+{
+    background-color: #f1f1f1;
+}
+
+.cars-content a:focus
+{
+    text-decoration: none;
+}
+
+#animation
+{
+    height: 250px;
+    width: 100%;
+    position: relative;
+    top: 300px;
+    z-index: 0;
+}
+
+#car1
+{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+#car2
+{
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+}
