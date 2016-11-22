@@ -10,11 +10,11 @@ app.use(morgan('combined'));
 // create a config to configure both pooling behavior
 // and client options
 var config = {
-    user: process.env.PGUSER, //env var: PGUSER
-    database: process.env.PGDATABASE, //env var: PGDATABASE
-    password: process.env.PGPASSWORD, //env var: PGPASSWORD
-    host: 'localhost', // Server hosting the postgres database
-    port: process.env.PGPORT, //env var: PGPORT
+    user: 'vishu160196', 
+    database: 'vishu160196', 
+    password: process.env.DB_PASSWORD, //env var: DB_PASSWORD
+    host: 'http://vishu160196.imad.hasura-app.io', // Server hosting the postgres database
+    port: 8080, 
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
@@ -83,7 +83,7 @@ function createTemplate(pageData) {
                 ${title}
             </title>
             <link type="text/css" rel="stylesheet" href="/stylesheet.css">
-            <script src="/ui/jquery-3.1.1.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
             <script type="text/javascript" src="/ui/carsExpt.js"></script>
         </head>
 
@@ -311,41 +311,6 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
     }
 });
 
-var madi_comments = [];
-app.get("/madi/submit_comment", function (req, res) {
-    var comment = req.query.comment;
-
-    if (comment === "")
-        res.send(JSON.stringify(madi_comments));
-    else {
-        madi_comments.push(comment);
-        res.send(JSON.stringify(madi_comments));
-    }
-});
-
-var foo_comments = [];
-app.get("/foo/submit_comment", function (req, res) {
-    var comment = req.query.comment;
-
-    if (comment === "")
-        res.send(JSON.stringify(foo_comments));
-    else {
-        foo_comments.push(comment);
-        res.send(JSON.stringify(foo_comments));
-    }
-});
-
-var koala_comments = [];
-app.get("/koala/submit_comment", function (req, res) {
-    var comment = req.query.comment;
-
-    if (comment === "")
-        res.send(JSON.stringify(koala_comments));
-    else {
-        koala_comments.push(comment);
-        res.send(JSON.stringify(koala_comments));
-    }
-});
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
 
 
