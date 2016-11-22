@@ -1,51 +1,86 @@
 <!DOCTYPE html>
-
 <html>
-	<head>
+<head>
 
-		<link type="text/css" rel="stylesheet" href="stylesheet.css">
-		<title>The Basic WebApp</title>
-		
-		<script>
-			var canvasRight = document.getElementById("canvas-right");
-			var canvasLeft = document.getElementById("canvas-Left");
-			
-		</script>
-	
-	</head>
-	
-	<body style = "background-color: honeydew">
-		
-		<div class = "container">
-			<meta name = "viewport" content = "width=device-width, initial-scale=1"/>
-			<h1 class="fancy"> 
-				Hello
-			</h1>
+    <link type="text/css" rel="stylesheet" href="stylesheet.css">
+    <title>The Audi FanClub</title>
 
-			<canvas id="canvas-right" width="50" height="50"></canvas>
-			<canvas id="canvas-left" width="50" height="50"></canvas>
-			
-			<div>
-			
-				<p class="fancy">this is a highly basic web-app</p>
-				<br>
-				<hr class = "style5">
-				<p style="text-align: left; font-size: 30px; font-family: sans-serif">
-					Given below is a guide to all the resources on this website
-					<ul class="unorderedList">
-						<li><a href="/madi" style="color: brown; text-decoration: none;">Meet Madi the dinosaur</a></li>
-						<li><a href="/Koala" style="text-decoration: none;color: brown;">and his friend Koala</a></li>
-						<li><a href="/Foo" style="text-decoration: none;color: brown;">and their loyal dog Foo</a></li>
-					</ul>
-				</p>
-				<hr class = "style5">
-				<br>
-				<br>
-			
-			</div>
+    <script src="/ui/jquery-3.1.1.js"></script>
+    <script src="/ui/main.js"></script>
 
-		</div>
-			
-	</body>
+</head>
 
+<body>
+
+    <header>
+        <img src="/ui/audi-logo.png" height="180" width="300">
+        <br>
+        <br>
+        <nav style="font-size : 40px; padding-bottom : 20px">
+
+            <a class="navigation" href="/">
+                HOME
+            </a>|
+
+            <a class="navigation" href="/about">
+                ABOUT
+            </a>|
+
+            <div class="navigation cars">
+                CARS
+                <div class="cars-content">
+                    <a href="/cars/a3">A3</a>
+                    <a href="/cars/a4">A4</a>
+                    <a href="/cars/s5">S5</a>
+                    <a href="/cars/a6">A6</a>
+                    <a href="/cars/a8">A8 L</a>
+                    <a href="/cars/q3">Q3</a>
+                    <a href="/cars/q5">Q5</a>
+                    <a href="/cars/q7">Q7</a>
+                    <a href="/cars/rs6">RS 6</a>
+                    <a href="/cars/rs7">RS 7</a>
+                    <a href="/cars/tt">TT</a>
+                    <a href="/cars/r8">R8</a>
+                </div>
+            </div> |
+
+            <a class="navigation" href="http://www.audi.in/sea/brand/in.html">
+                WEBSITE
+            </a>
+
+        </nav>
+    </header>
+    <div id="animation">
+        <img id="car1" width="20%" src="/ui/audi-tt.png">
+        <img id="car2" width="20%" src="/ui/audi.png">
+
+    </div>
+    <div class="container">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <div>
+            
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <hr class="style5">
+
+            <p style="text-align: left; font-size: 30px; font-family: sans-serif">
+                Welcome to the Audi fan club
+            </p>
+            
+            
+
+            <hr class="style5">
+            <br>
+            <br>
+
+        </div>
+
+    </div>
+
+</body>
 </html>
