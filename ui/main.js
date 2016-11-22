@@ -1,22 +1,16 @@
-var requestObject = new XMLHttpRequest;
+// JavaScript source code
 
-//this function handles the response received by the server on 
-requestObject.onreadystatechange = function()
+$(document).ready(moveCar1);
+
+
+
+function moveCar1()
 {
-    //check for the state of response
-    //If the state has the value of XMLHttpRequest.DONE (evaluating to 4)
-        //process the response
-    if (requestObject.readyState === XMLHttpRequest.DONE)
-    {
-        // everything is good, the response is received
-        // check the status code of response. a code of 200 means response received is good
-        if (requestObject.status === 200)
-        {
-            
-        }
-    } 
+    var car1 = $("#car1");
+    var car2 = $("#car2");
+    car1.animate({ left: '0%' }, 1000);
+    
+    car2.animate({ left: '80%' }, 1000);
+    console.log(car2.css("right"));
 }
-
-requestObject.open("GET", "http://localhost:8080/ui/Koala.jpg", true);
-requestObject.send(null);
 
