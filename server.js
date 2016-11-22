@@ -1,42 +1,57 @@
+// JavaScript source code
 var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
+var pool = require('pg').Pool;
 
 var app = express();
 app.use(morgan('combined'));
 
+// create a config to configure both pooling behavior
+// and client options
+var config = {
+    user: process.env.PGUSER, //env var: PGUSER
+    database: process.env.PGDATABASE, //env var: PGDATABASE
+    password: process.env.PGPASSWORD, //env var: PGPASSWORD
+    host: 'localhost', // Server hosting the postgres database
+    port: process.env.PGPORT, //env var: PGPORT
+    max: 10, // max number of clients in the pool
+    idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+};
+
+var pool = new pool(config);
+
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
-app.listen(8080, function () {
-  console.log(`IMAD course app listening on 
-port ${port}!`);
+app.listen(port, function () {
+    console.log(`IMAD course app listening on port ${port}!`);
 });
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------*/
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+    res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-
-
-
-
-
-
-/*---------------------------------------------------------------------Sources------------------------------------------------------------*/
 
 app.get('/stylesheet.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'stylesheet.css'));
+    res.sendFile(path.join(__dirname, 'ui', 'stylesheet.css'));
 });
 
-app.get("/madi.js", function(req, res){
-    res.sendFile(path.join(__dirname, "ui", "madi.js"));
+
+
+/*---------------------------------------------------------------------Scripts------------------------------------------------------------*/
+
+app.get("/ui/carsExpt.js", function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", "carsExpt.js"));
 });
 
-app.get("/foo.js", function (req, res) {
-    res.sendFile(path.join(__dirname, "ui", "foo.js"));
+app.get("/ui/main.js", function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", "main.js"));
 });
 
-app.get("/koala.js", function (req, res) {
-    res.sendFile(path.join(__dirname, "ui", "koala.js"));
+app.get("/ui/jquery-3.1.1.js", function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", "jquery-3.1.1.js"));
 });
 
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
@@ -48,284 +63,158 @@ app.get("/koala.js", function (req, res) {
 
 /*---------------------------------------------------------------------Pages------------------------------------------------------------*/
 
-app.get("/madi", function(req, res){
-    res.send(`
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>
-			Madi the dinosaur
-		</title>
-		<link type="text/css" rel="stylesheet" href="/stylesheet.css">
-		<script type="text/javascript" src="/madi.js"></script>
-	</head>
+var car = {
+    carName: '',
+    title: '',
+    heading: '',
+    mainImageSrc: '',
+    mainContent: '',
+    likes: 0
+};
 
-	<body style="background-color: honeydew" onpageshow="requestComments()">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+function createTemplate(pageData) {
+    var title = pageData.title, pageHeading = pageData.heading, mainImageSrc = pageData.mainImageSrc, mainContent = pageData.mainContent, likes = pageData.likes;
 
-		<div class="container">
-			<h1 class="fancy" style="font-size: 67px; text-align: left;">
-				Madi The Dinosaur
-			    <img src="/madi.png" width="220" height="222" style="float: right">
-			</h1>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<hr class="style5">
-			<br>
-			<br>
-			<p class="paragraph">
-				Hi all welcome to Module madi. On this page I will tell you about my journey from
-				near extinction to becoming the mascot of IMAD. As you may already know dinosaurs
-				became extinct long back. However you may also know that only the fittest survive,
-				so it was at that time when all my fellow mates struggled to survive with their old
-				techniques that I took to app-development on my 16-bit machine (sounds quirky right?)
-				and I have been developing and deploying apps for people since then.
-			</p>
+    var htmlTemplate = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>
+                ${title}
+            </title>
+            <link type="text/css" rel="stylesheet" href="/stylesheet.css">
+            <script src="/ui/jquery-3.1.1.js"></script>
+            <script type="text/javascript" src="/ui/carsExpt.js"></script>
+        </head>
 
-			<p class="paragraph">
-				So even when all my other mates continued to search for some means of survival, I was making big money
-				at the same time. Today I have become the mascot of IMAD on the humble request of all
-				the good folks at Hasura. I continue to tread this path and seek to become the greatest
-				developers of all times
-			</p>
+        <body>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <header>
+                <img src="/ui/audi-logo.png" height="180" width="300">
+                <br>
+                <br>
+                <nav style="font-size : 40px; padding-bottom : 20px">
 
-			<p class="paragraph">
-				If you were inspired by my story then please do click
-				on the 'Like' button below
-			</p>
+                    <a class="navigation" href="/">
+                        HOME
+                    </a>|
 
-			<p class="paragraph">
-				P.S. The animation on the top left and right corners
-				of the main page of this site was copied from <a href="https://www.google.com" style="color: green; text-decoration: none">Google</a>
-				I mean only the idea was copied, the code is original
-			</p>
-			<br>
-			<br>
-			<br>
-			<hr class="style5">
-			<br>
-			<div class="like">
-				<button class="likeButton buttonStyle" onclick="requestLikeEndPoint()">Like <img src="/like.png" width="20" height="20"></button>
-				<span id="likespan">${madi_likes} Likes</span>
-			</div>
+                    <a class="navigation" href="/about">
+                        ABOUT
+                    </a>|
 
-            <div class="comments">
-		<br>
-                <div id="placeholderReplace">
-                    <textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()" ></textarea>
+                    <div class="navigation cars">
+                        CARS
+                        <div class="cars-content">
+                            <a href="/cars/a3">A3</a>
+                            <a href="/cars/a4">A4</a>
+                            <a href="/cars/s5">S5</a>
+                            <a href="/cars/a6">A6</a>
+                            <a href="/cars/a8l">A8 L</a>
+                            <a href="/cars/q3">Q3</a>
+                            <a href="/cars/q5">Q5</a>
+                            <a href="/cars/q7">Q7</a>
+                            <a href="/cars/rs6">RS 6</a>
+                            <a href="/cars/rs7">RS 7</a>
+                            <a href="/cars/tt">TT</a>
+                            <a href="/cars/r8">R8</a>
+                        </div>
+                    </div> |
+
+                    <a class="navigation" href="http://www.audi.in/sea/brand/in.html">
+                        WEBSITE
+                    </a>
+
+                </nav>
+            </header>
+            <div class="container">
+                <h1 id="heading" class="fancy" style="font-size: 67px; text-align: center">
+                    ${pageHeading}
+                </h1>
+                <p style="text-align:center">
+                    <img ${mainImageSrc} width="250" height="150">
+                </p>
+                <br>
+                <br>
+                <br>
+                <hr class="style5">
+                <br>
+                <br>
+
+                <div id="mainContent">
+                    ${mainContent}
                 </div>
-                <br/>
-                <br/>
-                <div id="appearCommentButton" style="float:left">
+
+                <br>
+                <br>
+                <br>
+                <hr class="style5">
+                <br><br><br><br>
+                <div class="like">
+                    <button id="likeButton" class="buttonStyle">Like <img src="/like.png" width="20" height="20"></button>
+                    <span id="likespan">${likes} Likes</span>
                 </div>
-				<br>
-                <hr style="margin-right:40px"/>
-				<br>
-                <br/>
 
-                <span id="prev_comments">
-                </span>
+                <div class="comments">
+                    <br>
+                    <div id="placeholderReplace">
+                        <h1 class ="fancy" style="text-align: left">
+                            Own this car? Leave a feedback!
+                        </h1>
+                        <pre><textarea cols="55" id="feedback" placeholder="Leave a feedback"></textarea></pre>
+                    </div>
+                    <br>
+                    <br>
+                    <div id="appearFeedbackButton" style="float:left">
+
+                    </div>
+                    <br>
+                    <hr style="margin-right:40px" />
+                    <br>
+                    <br>
+
+                    <div id="prevFeedbacks">
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-		</div>
-	</body>
-</html>
-`);
+        </body>
+        </html>`;
+
+    return htmlTemplate;
+}
+
+
+app.get('/cars/:carName', function (req, res) {
+
+    var carName = req.params.carName;
+
+    //fetch data from db corresponding to carName
+    pool.query("SELECT * FROM cars WHERE car_name= ($1);", [carName], function (err, result) {
+
+        if (err) {
+            res.status(500).send(err.toString());
+        }
+
+        else {
+            //fill the car object's properties from that data
+            car.carName = result.rows[0].car_name;
+            car.title = result.rows[0].title;
+            car.heading = result.rows[0].heading;
+            car.mainImageSrc = result.rows[0].main_image_src;
+            car.mainContent = result.rows[0].main_content;
+            car.likes = result.rows[0].likes;
+
+            //pass the object as argument to createTemplate() and send back the return value
+            res.send(createTemplate(car));
+        }
+    });
 });
 
-
-app.get("/Koala", function (req, res) {
-    res.send(`
-<!DOCTYPE html>
-<html>
-<head>
-    <title>
-        The endangered Koala
-    </title>
-    <link type="text/css" rel="stylesheet" href="/stylesheet.css">
-    <script type="text/javascript" src="/koala.js"></script>
-</head>
-
-<body style="background-color: honeydew" onpageshow="requestComments()">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <div class="container">
-        <h1 class="fancy" style="font-size: 67px; text-align: left;">
-            The endangered Koala
-            <img src="/Koala.jpg" width="165" height="150" style="float: right">
-        </h1>
-        <br>
-        <br>
-        <hr class="style5">
-        <br>
-        <br>
-
-        <p class="paragraph">
-            Hello everyone!! let me introduce myself!!! I am Koala and I know how to make a phoolmala?!?! not funny?? never mind...So let me
-            brief you about why I am here and how I came here. The users of Windows7 OS should check the "Sample Pictures" directory in the "Pictures"
-            directory of their systems......the dev is a real animal lover and took my picture from there!!!!! Anyways now that I am here I would
-            like to create awareness among folks regarding wildlife conservation and destroying natural habitats of animals......
-        </p>
-
-        <p class="paragraph">
-            So let me first tell you that I am a native of Australia (.au TLD) and some pesky humans are creating a ruckus, cutting
-            trees like paper. In April 2012, the Australian Government declared the Koala as "VULNERABLE" across the entire state.
-            Upon receiving advice from the Threatened Species Scientific Council, Minister Tony Burke listed the Koala as a threatened species
-            under the EPBC Act. Research conducted by the AKF strongly suggests the Koala's conservation status should be upgraded to
-            "CRITICALLY ENDANGERED" in the South East Queensland Bioregion.
-        </p>
-
-        <p class="paragraph">
-            Koalas are in serious decline suffering from the effects of habitat destruction, domestic dog attacks, bushfires and road accidents.
-            The Australian Koala Foundation estimates that there are less than 100,000 Koalas left in the wild, possibly as few as 43,000.
-            You can see how we determined those figures <a href="https://www.savethekoala.com/our-work/bobs-map" style="color: green; text-decoration: none">here</a>.
-        </p>
-        <img src="https://www.savethekoala.com/sites/default/files/images/koalaendangered1.jpg"/>
-        <p class="paragraph">
-            So i guess this much is enough to describe my pitiable situation. If you are humane and care for your hairy friends (like me) then
-            please show your support by LIKing this post and do leave a comment.
-        </p>
-
-        <br>
-        <br>
-        <br>
-        <hr class="style5">
-        <br>
-        <div class="like">
-            <button class="likeButton buttonStyle" onclick="requestLikeEndPoint()">Like <img src="/like.png" width="20" height="20"></button>
-            <span id="likespan">${koala_likes} Likes</span>
-        </div>
-
-        <div class="comments">
-            <br>
-            <div id="placeholderReplace">
-                <textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()"></textarea>
-            </div>
-            <br />
-            <br />
-            <div id="appearCommentButton" style="float:left">
-            </div>
-            <br>
-            <hr style="margin-right:40px" />
-            <br>
-            <br />
-
-            <span id="prev_comments">
-            </span>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-</body>
-</html>`);
-});
-
-
-app.get("/Foo", function (req, res) {
-    res.send(`
-<!DOCTYPE html>
-<html>
-<head>
-    <title>
-        The loyal dog Foo
-    </title>
-    <link type="text/css" rel="stylesheet" href="/stylesheet.css">
-    <script type="text/javascript" src="/foo.js"></script>
-</head>
-
-<body style="background-color: honeydew" onpageshow="requestComments()">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <div class="container">
-        <h1 class="fancy" style="font-size: 67px; text-align: left;">
-            The loyal dog Foo
-            <img src="/foo.jpg" width="177" height="222" style="float: right; padding-top:18px">
-        </h1>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <hr class="style5">
-        <br>
-        <br>
-        <p class="paragraph" style="font-family:cursive">
-            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
-            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
-            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
-            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
-            *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*
-        </p>
-
-        <h1 class="fancy" style="font-size: 40px; text-align: left;">
-            The above translates as
-        </h1>
-
-        <p class="paragraph">
-            Oh yeah!! so hi all, the name's foo, and probably you know me too!!! that rhymes bub doesn't it? thankyou, thankyou I know I
-            am cool!!!! So I heard the dev's making his first webapp, and decided to jump in too. Trust me bro this guy is way cooler than
-            you can imagine. He started his journey with POP and is now jumping to OOP (a natural progression isn't it). He has made some really
-            cool stuff and is on a rampage when it comes to programming. Oh and yes I heard madi saying there's some animation on the main page
-            !? I didn't see any.....maybe the dev's having a hard time with animations, though i did see 2 canvases on the main page.......
-        </p>
-
-        <p class="paragraph">
-            So if you wanna party hard and code harder press the LIKE button below and don't forget to mention a comment about the cool guy
-            I've been talking of for so long!!!! *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff* *Ruff Ruff*!!!!!
-        </p>
-
-        <p class="paragraph">
-            P.S. The last few lines cannot be translated since they contain strong language which is inappropriate to display.....This dog is a
-            real riot.
-        </p>
-        <br>
-        <br>
-        <br>
-        <hr class="style5">
-        <br>
-        <div class="like">
-            <button class="likeButton buttonStyle" onclick="requestLikeEndPoint()">Like <img src="/like.png" width="20" height="20"></button>
-            <span id="likespan">${foo_likes} Likes</span>
-        </div>
-
-        <div class="comments">
-            <br>
-            <div id="placeholderReplace">
-                <textarea cols="55" id="commentsBox" placeholder="Add a comment..." onclick="appearCommentButton()"></textarea>
-            </div>
-            <br />
-            <br />
-            <div id="appearCommentButton" style="float:left">
-            </div>
-            <br>
-            <hr style="margin-right:40px" />
-            <br>
-            <br />
-
-            <span id="prev_comments">
-            </span>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-</body>
-</html>`);
-});
 
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -335,22 +224,33 @@ app.get("/Foo", function (req, res) {
 
 /*---------------------------------------------------------------------Likes------------------------------------------------------------*/
 
-var madi_likes = 0;
-app.get('/madi/like', function (req, res) {
-    madi_likes++;
-    res.send(madi_likes.toString());
-});
+app.get('/cars/like/:carName', function (req, res) {
+    var carName = req.params.carName;
 
-var foo_likes = 0;
-app.get('/foo/like', function (req, res) {
-    foo_likes++;
-    res.send(foo_likes.toString());
-});
+    //fetch number of likes from db
+    pool.query("SELECT likes FROM cars WHERE car_name= ($1);", [carName], function (err, result) {
 
-var koala_likes = 0;
-app.get('/koala/like', function (req, res) {
-    koala_likes++;
-    res.send(koala_likes.toString());
+        if (err) {
+            res.status(500).send(err.toString());
+        }
+
+        else {
+
+            //increment number of likes by one
+            var likes = result.rows[0].likes;
+            likes++;
+
+            //write number of likes to db
+            pool.query("UPDATE cars SET likes = '" + likes.toString() + "' WHERE car_name = '" + carName + "';", function (err, result) {
+                if (err)
+                    res.status(500).send(err.toString());
+                else {
+                    //send back new number of likes
+                    res.send(likes.toString());
+                }
+            });
+        }
+    });
 });
 
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
@@ -360,7 +260,57 @@ app.get('/koala/like', function (req, res) {
 
 
 
-/*---------------------------------------------------------------------Comments-------------------------------------------------------------*/
+/*---------------------------------------------------------------------Feedbacks-------------------------------------------------------------*/
+
+app.get('/cars/:carName/submit_feedback', function (req, res) {
+
+    var feedback = req.query.feedback;
+    var carName = req.params.carName;
+
+    if (feedback === '') {
+        // fetch all feedbacks from db corresponding to carName
+        pool.query("SELECT review FROM reviews WHERE car_name= ($1)", [carName], function (err, result) {
+
+            if (err)
+                res.status(500).send(err.toString());
+            else {
+                var reviews = [];
+                for (var i = 0; i < result.rows.length; i++)
+                    reviews.push(result.rows[i].review);
+
+                // send back as JSON string
+                res.send(JSON.stringify(reviews));
+            }
+        });
+    }
+
+    else {
+        //fetch all reviews from db and make an array of reviews
+        pool.query("SELECT review FROM reviews WHERE car_name= ($1);", [carName], function (err, result) {
+
+            if (err)
+                res.status(500).send(err.toString());
+            else {
+                var reviews = [];
+
+                for (var i = 0; i < result.rows.length; i++)
+                    reviews.push(result.rows[i].review);
+
+                //push the latest feedback to it
+                reviews.push(feedback);
+
+                //write to db the new feedback
+                pool.query("INSERT INTO reviews VALUES('" + carName + "','" + feedback + "');", function (err, result) {
+                    if (err)
+                        res.status(500).send(err.toString());
+                    //else
+                    //res.send(JSON.stringify(reviews));
+                });
+            }
+        });
+    }
+});
+
 var madi_comments = [];
 app.get("/madi/submit_comment", function (req, res) {
     var comment = req.query.comment;
@@ -408,20 +358,20 @@ app.get('/person.png', function (req, res) {
     res.sendFile(path.join(__dirname, "ui", 'person.png'));
 });
 
-app.get("/foo.jpg", function (req, res) {
-    res.sendFile(path.join(__dirname, "ui", "foo.jpg"));
-});
-
-app.get("/madi.png", function (req, res) {
-    res.sendFile(path.join(__dirname, "ui", "madi.png"));
-});
-
-app.get('/Koala.jpg', function (req, res) {
-    res.sendFile(path.join(__dirname, "ui", 'Koala.jpg'));
-});
-
 app.get('/like.png', function (req, res) {
     res.sendFile(path.join(__dirname, "ui", 'like.png'));
 });
 
+app.get('/ui/audi-logo.png', function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", 'audi-logo.png'));
+});
+
+app.get('/ui/audi-tt.png', function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", 'audi-tt.png'));
+});
+
+app.get('/ui/audi.png', function (req, res) {
+    res.sendFile(path.join(__dirname, "ui", 'audi.png'));
+});
 /*---------------------------------------------------------------------------------------------------------------------------------------*/
+
