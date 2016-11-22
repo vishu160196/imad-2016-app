@@ -1,0 +1,242 @@
+body
+{
+    background-color: floralwhite;
+}
+
+.fancy
+{
+    font-family: cursive;
+    color: #0000cd;
+    font-size: 35px;
+    margin-top: auto;
+    text-align: center;
+    font-weight: bolder;
+}
+
+
+.buttonStyle
+{
+    background-color: #4CAF50; 
+    border: none;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    margin: 4px 4px;
+    transition-duration: 0.8s;
+    cursor: pointer;
+}
+
+#likeButton
+{
+    background-color: honeydew;
+    border: 2px solid #4CAF50;
+    color: black;
+}
+
+#likeButton:hover
+{
+    background-color: darkred;
+    color: white;
+}
+
+.container
+{
+    max-width: 80%;
+    margin: 0 auto;
+    padding-top: 260px;
+}
+
+
+
+.style5
+{
+    border-top-color: initial;
+    border-top-style: initial;
+    border-top-width: 0px;
+    border-right-color: initial;
+    border-right-style: initial;
+    border-right-width: 0px;
+    border-bottom-color: initial;
+    border-bottom-style: initial;
+    border-bottom-width: 0px;
+    border-left-color: initial;
+    border-left-style: initial;
+    border-left-width: 0px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    height: 0;
+    box-shadow: 0 0 10px 1px black;
+}
+
+.unorderedList
+{
+    list-style-position: outside;
+    list-style-type: square;
+    font-family: monospace;
+    font-size: 22px;
+}
+
+
+.paragraph
+{
+    text-align: left;
+    font-family: sans-serif;
+    font-size: 20px;
+    color: crimson;
+}
+
+.like
+{
+    float: right;
+    font-size: 20px;
+}
+
+#likespan
+{
+    padding-right: 14px;
+    font-family: monospace;
+}
+
+#feedback
+{
+    background-color: lightgrey;
+    resize: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    outline: none;
+    height: 15px;
+    transition: height 0.5s;
+}
+
+#feedback:focus
+{
+    height: 30px;
+    background-color: papayawhip;
+}
+
+#prevFeedbacks
+{
+    color: cornsilk;
+    font-size: 18px;
+    font-family: cursive;
+}
+
+.comments
+{
+    padding-left: 22px;
+    max-width: 458px;
+    background-color: goldenrod;
+}
+
+header 
+{
+    background-color: yellowgreen;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+    width: 100%;
+    top:0;
+}
+
+.button_group
+{
+    float: left;
+    border: none;
+    text-decoration: none;
+    background-color: chartreuse;
+    padding: 15px 32px;
+    cursor: pointer;
+    font-size: 16px;
+    color: crimson;
+}
+
+.navigation
+{
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 25px;
+    color: navy;
+    cursor: pointer;
+    padding: 10px 30px 10px 30px;
+}
+
+.cars
+{
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+.cars:hover
+{
+    background-color: palegreen;
+}
+
+.cars-content
+{
+    display: none;
+    background-color: palegreen;
+    position: absolute;
+    left: 0px;
+    top: 49px;
+    min-width: 100%;
+    text-align: center;
+    border-top-color: beige;
+    border-top-style: ridge;
+    border-top-width: 2px;
+}
+
+.cars:hover .cars-content
+{
+    display: block;
+    box-shadow: 15px 16px 10px 0px rgba(0,0,0,0.2);
+}
+
+.cars-content a
+{
+    color: navy;
+    display: block;
+    padding: 5px 0px;
+    text-decoration: none;
+    font-size: 20px;
+
+}
+
+.cars-content a:hover
+{
+    background-color: #f1f1f1;
+}
+
+.cars-content a:focus
+{
+    text-decoration: none;
+}
+
+#animation
+{
+    height: 250px;
+    width: 100%;
+    position: relative;
+    top: 300px;
+    z-index: 0;
+}
+
+#car1
+{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+#car2
+{
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+}
