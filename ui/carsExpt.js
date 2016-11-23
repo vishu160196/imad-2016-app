@@ -45,7 +45,7 @@ $(document).ready(function () {
 
     $("#likeButton").click(function requestLikeEndPoint() {
         var request = new XMLHttpRequest;
-        console.log(carName);
+        
         function displayLikes() {
             if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
                 var likespan = document.getElementById("likespan");
