@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    $("#submitButton").hide();
+    $("#submitButton").css("display", "none");
 
     // Find car name for templating --- use a single js file for all car pages
     var carName;
@@ -58,7 +58,6 @@ $(document).ready(function () {
         request.send(null);
     });
 
-
     $(document).ready(function requestFeedbacks() {
         var request = new XMLHttpRequest;
 
@@ -83,10 +82,6 @@ $(document).ready(function () {
         request.send(null);
     });
 
-    $("#feedback").click(function appearCommentButton() {
-        $("#submitButton").show();
-    });
-
     $("#submitButton").click(function () {
 
         var feedback = document.getElementById("feedback").value;
@@ -95,7 +90,11 @@ $(document).ready(function () {
 
         request.open("GET", `/cars/${carName}/submit_feedback?feedback=` + feedback, true);
         request.send(null);
-        $("#placeholderReplace").html('<h1 class ="fancy">Own this car? Leave a feedback!</h1><textarea cols="55" id="feedback" placeholder="Leave a feedback"></textarea>');
-        $("#submitButton").hide();
+        $("#feedback").val("");
+        $("#submitButton").css("display", "none");
+    });
+
+    $("#feedback").click(function appearCommentButton() {
+        $("#submitButton").css("display", "");
     });
 });
