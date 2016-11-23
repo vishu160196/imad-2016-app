@@ -79,6 +79,7 @@ function createTemplate(pageData) {
         <!DOCTYPE html>
         <html>
         <head>
+            <link rel="shortcut icon" type="image/x-icon" href="http://www.audi.in/content/dam/ngw/sea/in/images/favicon.ico">
             <title>
                 ${title}
             </title>
