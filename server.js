@@ -166,6 +166,7 @@ function createTemplate(pageData) {
                     <br>
                     <br>
                     <div id="appearFeedbackButton" style="float:left">
+                        <button class ="buttonStyle" id="submitButton">Submit</button>
 
                     </div>
                     <br>
