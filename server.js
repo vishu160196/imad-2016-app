@@ -132,7 +132,7 @@ function createTemplate(pageData) {
                     ${pageHeading}
                 </h1>
                 <p style="text-align:center">
-                    <img ${mainImageSrc} width="250" height="150">
+                    <img ${mainImageSrc}>
                 </p>
                 <br>
                 <br>
