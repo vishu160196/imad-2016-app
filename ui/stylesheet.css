@@ -132,6 +132,7 @@ body
     padding-left: 22px;
     max-width: 458px;
     background-color: goldenrod;
+    border-radius: 15px;
 }
 
 header 
