@@ -292,20 +292,13 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
             if (err)
                 res.status(500).send(err.toString());
             else {
-                var reviews = [];
-
-                for (var i = 0; i < result.rows.length; i++)
-                    reviews.push(result.rows[i].review);
-
-                //push the latest feedback to it
-                reviews.push(feedback);
+                
 
                 //write to db the new feedback
                 pool.query("INSERT INTO reviews VALUES('" + carName + "','" + feedback + "');", function (err, result) {
                     if (err)
                         res.status(500).send(err.toString());
-                    //else
-                    //res.send(JSON.stringify(reviews));
+                    
                 });
             }
         });
