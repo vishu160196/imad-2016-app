@@ -15,11 +15,11 @@ app.use(bodyParser.json());
 // create a config to configure both pooling behavior
 // and client options
 var config = {
-    user: process.env.PGUSER, //env var: PGUSER
-    database: process.env.PGDATABASE, //env var: PGDATABASE
-    password: process.env.PGPASSWORD, //env var: PGPASSWORD
+    user: 'vishu160196', //env var: PGUSER
+    database: 'vishu160196', //env var: PGDATABASE
+    password: process.env.DB_PASSWORD, //env var: PGPASSWORD
     host: 'localhost', // Server hosting the postgres database
-    port: process.env.PGPORT, //env var: PGPORT
+    port: '5432', //env var: PGPORT
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
@@ -89,7 +89,7 @@ function createTemplate(pageData) {
             </title>
             <link type="text/css" rel="stylesheet" href="/stylesheet.css">
             <script src="/ui/jquery-3.1.1.js"></script>
-            <script type="text/javascript" src="/ui/carsExpt.js"></script>
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         </head>
 
         <body>
