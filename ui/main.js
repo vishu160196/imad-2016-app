@@ -1,6 +1,25 @@
 // JavaScript source code
 
 $(document).ready(function () {
+
+    //check whether the client is logged in or not
+    
+    $.ajax({
+        url: "/login-check",
+        type: "GET",
+        success: function (data) {
+            $("#login_message").css("color", "green");
+            $("#login_message").text(`Welcome ${data}`);
+
+            //activate the logout button
+            $("#logout_button").css("display", "");
+            $("#logout_button").html("<button>LOGOUT</button>");
+        }
+        
+    });
+
+    
+
     var car1 = $("#car1");
     var car2 = $("#car2");
     car1.animate({ left: '0%' }, 1000);
@@ -58,8 +77,8 @@ $(document).ready(function () {
 
         //check whether there is content in input fields
         if (userName.val() === '' || userPassword.val() === '') {
-            signupMessage.css("color", "red");
-            signupMessage.text("One of the entry fields is empty");
+            loginMessage.css("color", "red");
+            loginMessage.text("One of the entry fields is empty");
         }
 
         else {
@@ -77,23 +96,52 @@ $(document).ready(function () {
                     //render the response received and also remove the field entries                    
                     userName.val('');
                     userPassword: userPassword.val('');
-                    console.log(data);
+                    loginMessage.css("color", "green");
+                    loginMessage.text(data);
+
+                    //activate the logout button
+                    $("#logout_button").css("display", "");
+                    $("#logout_button").html("<button>LOGOUT</button>");
                 },
                 error: function (data) {
 
-                    signupMessage.css("color", "red");
+                    loginMessage.css("color", "red");
 
                     if (data.status === 404) 
-                        signupMessage.text("There is no user by this name");
+                        loginMessage.text("There is no user by this name");
 
                     else if (data.status === 401)
-                        signupMessage.text("Incorrect password");
+                        loginMessage.text("Incorrect password");
 
                     else if (data.status === 500)
-                        signupMessage.text("Something went wrong on the server Please try again in some time");                    
+                        loginMessage.text("Something went wrong on the server Please try again in some time");                    
                 }
             });
         }
+    });
+
+    $("#logout_button").click(function () {
+
+        var logout = $("#logout_button");
+        $.ajax({
+            url: "/logout",
+            type: "GET",
+            
+            
+            success: function (data) {
+                //render the response received and also remove the logout button                    
+                logout.css("color", "blue");
+                logout.text(data);
+                $("#login_message").hide();
+                
+            },
+            error: function (data) {
+
+                logout.css("color", "red");
+
+                logout.text("Something went wrong please try again");
+            }
+        });
     });
 });
 

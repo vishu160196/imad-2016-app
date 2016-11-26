@@ -1,45 +1,60 @@
 $(document).ready(function () {
     
+    var userName;
+    $.ajax({
+        url: "/login-check",
+        type: "GET",
+        success: function(data){
+            userName = data;
+        },
+        error: function (data) {
+            //remove submitButton
+            $("#appearFeedbackButton").html('');
+        }
+    });
+
+    
+
     $("#submitButton").css("display", "none");
 
     // Find car name for templating --- use a single js file for all car pages
     var carName;
     var url = $(location).attr('href');
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/a3' || url === 'http://vishu160196.imad.hasura-app.io/cars/a3/')
+    if (url === 'http://localhost:8080/cars/a3' || url === 'http://localhost:8080/cars/a3/')
         carName = "a3";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/a4' || url === 'http://vishu160196.imad.hasura-app.io/cars/a4/')
+    if (url === 'http://localhost:8080/cars/a4' || url === 'http://localhost:8080/cars/a4/')
         carName = "a4";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/s5' || url === 'http://vishu160196.imad.hasura-app.io/cars/s5/')
+    if (url === 'http://localhost:8080/cars/s5' || url === 'http://localhost:8080/cars/s5/')
         carName = "s5";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/a6' || url === 'http://vishu160196.imad.hasura-app.io/cars/a6/')
+    if (url === 'http://localhost:8080/cars/a6' || url === 'http://localhost:8080/cars/a6/')
         carName = "a6";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/a8l' || url === 'http://vishu160196.imad.hasura-app.io/cars/a8l/')
+    if (url === 'http://localhost:8080/cars/a8l' || url === 'http://localhost:8080/cars/a8l/')
         carName = "a8l";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/q3' || url === 'http://vishu160196.imad.hasura-app.io/cars/q3/')
+    if (url === 'http://localhost:8080/cars/q3' || url === 'http://localhost:8080/cars/q3/')
         carName = "q3";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/q5' || url === 'http://vishu160196.imad.hasura-app.io/cars/q5/')
+    if (url === 'http://localhost:8080/cars/q5' || url === 'http://localhost:8080/cars/q5/')
         carName = "q5";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/q7' || url === 'http://vishu160196.imad.hasura-app.io/cars/q7/')
+    if (url === 'http://localhost:8080/cars/q7' || url === 'http://localhost:8080/cars/q7/')
         carName = "q7";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/rs6' || url === 'http://vishu160196.imad.hasura-app.io/cars/rs6/')
+    if (url === 'http://localhost:8080/cars/rs6' || url === 'http://localhost:8080/cars/rs6/')
         carName = "rs6";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/rs7' || url === 'http://vishu160196.imad.hasura-app.io/cars/rs7/')
+    if (url === 'http://localhost:8080/cars/rs7' || url === 'http://localhost:8080/cars/rs7/')
         carName = "rs7";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/tt' || url === 'http://vishu160196.imad.hasura-app.io/cars/tt/')
+    if (url === 'http://localhost:8080/cars/tt' || url === 'http://localhost:8080/cars/tt/')
         carName = "tt";
 
-    if (url === 'http://vishu160196.imad.hasura-app.io/cars/r8' || url === 'http://vishu160196.imad.hasura-app.io/cars/r8/')
+    if (url === 'http://localhost:8080/cars/r8' || url === 'http://localhost:8080/cars/r8/')
         carName = "r8";
 
 
@@ -70,7 +85,7 @@ $(document).ready(function () {
                 var matter = "";
 
                 for (var i = 0; i < prevFeedbacks.length; i++) {
-                    matter += "<img src=\"/person.png\" style=\"float:left\"/><div style=\"padding-left:50px\">" + prevFeedbacks[i] + "</div><br/><br/>";
+                    matter += `<img src="/person.png" style="float:left"/><div style="padding-left:50px">${prevFeedbacks[i]}</div><br/><br/>`;
                     feedbacks.innerHTML = matter;
                 }
             }
@@ -84,9 +99,11 @@ $(document).ready(function () {
 
     $("#submitButton").click(function () {
 
+        
+
         var feedback = document.getElementById("feedback").value;
         var request = new XMLHttpRequest;
-        $("#prevFeedbacks").prepend("<img src=\"/person.png\" style=\"float:left\"/><div style=\"padding-left:50px\">" + feedback + "</div><br/><br/>");
+        $("#prevFeedbacks").prepend(`<img src="/person.png" style="float:left"/><div style="padding-left:50px">${feedback}</div><br/><br/>`);
 
         request.open("GET", `/cars/${carName}/submit_feedback?feedback=` + feedback, true);
         request.send(null);
@@ -97,4 +114,6 @@ $(document).ready(function () {
     $("#feedback").click(function appearCommentButton() {
         $("#submitButton").css("display", "");
     });
+
+        
 });
