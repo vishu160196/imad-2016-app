@@ -11,15 +11,19 @@ var app = express();
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
+app.use(session({
+    secret: crypto.randomBytes(32).toString(),
+    cookie: { maxAge: 1000 * 60 * 24 * 60 * 30 }
+}));
 
 // create a config to configure both pooling behavior
 // and client options
 var config = {
-    user: 'vishu160196', //env var: PGUSER
-    database: 'vishu160196', //env var: PGDATABASE
-    password: process.env.DB_PASSWORD, //env var: PGPASSWORD
-    host: 'db.imad.hasura-app.io', // Server hosting the postgres database
-    port: '5432', //env var: PGPORT
+    user: process.env.PGUSER, //env var: PGUSER
+    database: process.env.PGDATABASE, //env var: PGDATABASE
+    password: process.env.PGPASSWORD, //env var: PGPASSWORD
+    host: 'localhost', // Server hosting the postgres database
+    port: process.env.PGPORT, //env var: PGPORT
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
@@ -88,9 +92,8 @@ function createTemplate(pageData) {
                 ${title}
             </title>
             <link type="text/css" rel="stylesheet" href="/stylesheet.css">
-            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+            <script src="/ui/jquery-3.1.1.js"></script>
             <script type="text/javascript" src="/ui/carsExpt.js"></script>
-            
         </head>
 
         <body>
@@ -275,7 +278,7 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
 
     if (feedback === '') {
         // fetch all feedbacks from db corresponding to carName
-        pool.query("SELECT review FROM reviews WHERE car_name= ($1)", [carName], function (err, result) {
+        pool.query("SELECT review FROM reviews WHERE car_name= $1", [carName], function (err, result) {
 
             if (err)
                 res.status(500).send(err.toString());
@@ -292,14 +295,14 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
 
     else {
         //fetch all reviews from db and make an array of reviews
-        pool.query("SELECT review FROM reviews WHERE car_name= ($1);", [carName], function (err, result) {
+        pool.query("SELECT review FROM reviews WHERE car_name= $1;", [carName], function (err, result) {
 
             if (err)
                 res.status(500).send(err.toString());
             else {
                 
                 //write to db the new feedback
-                pool.query("INSERT INTO reviews VALUES(($1), ($2));", [carName, feedback], function (err, result) {
+                pool.query("INSERT INTO reviews VALUES($1, $2, $3);", [carName, feedback, req.session.auth.userName], function (err, result) {
                     if (err)
                         res.status(500).send(err.toString());
                     
@@ -351,7 +354,7 @@ app.post('/create-user', function (req, res) {
 
 
 
-/*---------------------------------------------------------------------Login-------------------------------------------------------------*/
+/*---------------------------------------------------------------------Login/Logout-------------------------------------------------------------*/
 
 app.post('/login', function (req, res) {
     var userName = req.body.userName;
@@ -373,13 +376,27 @@ app.post('/login', function (req, res) {
                 userPassword = hash(userPassword, salt);
 
                 if (userPassword === actualPassPhrase) 
+                {
+                    //start session
+                    req.session.auth = {userName: result.rows[0].user_name};
+
                     res.send(`Welcome ${userName}`);
+                }
              
                 else
                     res.status(401).send("Incorrect password");                
             }
         }
     });
+});
+
+app.get('/login-check', function (req, res) {
+    res.send(req.session.auth.userName);
+});
+
+app.get('/logout', function (req, res) {
+    delete req.session.auth;
+    res.send('Logged out succesfully');
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/
