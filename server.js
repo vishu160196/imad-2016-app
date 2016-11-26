@@ -88,8 +88,9 @@ function createTemplate(pageData) {
                 ${title}
             </title>
             <link type="text/css" rel="stylesheet" href="/stylesheet.css">
-            
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+            <script type="text/javascript" src="/ui/carsExpt.js"></script>
+            
         </head>
 
         <body>
