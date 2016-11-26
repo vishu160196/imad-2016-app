@@ -18,7 +18,7 @@ var config = {
     user: 'vishu160196', //env var: PGUSER
     database: 'vishu160196', //env var: PGDATABASE
     password: process.env.DB_PASS, //env var: PGPASSWORD
-    host: 'localhost:5432', // Server hosting the postgres database
+    host: 'localhost', // Server hosting the postgres database
     port: '5432', //env var: PGPORT
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
