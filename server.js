@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 var config = {
     user: 'vishu160196', //env var: PGUSER
     database: 'vishu160196', //env var: PGDATABASE
-    password: process.env.DB_PASSWORD, //env var: PGPASSWORD
+    password: process.env.DB_PASS, //env var: PGPASSWORD
     host: 'localhost:5432', // Server hosting the postgres database
     port: '5432', //env var: PGPORT
     max: 10, // max number of clients in the pool
