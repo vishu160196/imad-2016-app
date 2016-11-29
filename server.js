@@ -278,14 +278,14 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
 
     if (feedback === '') {
         // fetch all feedbacks from db corresponding to carName
-        pool.query("SELECT review FROM reviews WHERE car_name= $1", [carName], function (err, result) {
+        pool.query("SELECT review, user_name FROM reviews WHERE car_name= $1", [carName], function (err, result) {
 
             if (err)
                 res.status(500).send(err.toString());
             else {
                 var reviews = [];
                 for (var i = 0; i < result.rows.length; i++)
-                    reviews.push(result.rows[i].review);
+                    reviews.push([result.rows[i].review, result.rows[i].user_name].join('$'));
 
                 // send back as JSON string
                 res.send(JSON.stringify(reviews));
@@ -300,8 +300,7 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
             if (err)
                 res.status(500).send(err.toString());
             else {
-                
-                if(req.session && req.session.auth && req.session.userName) //check whether client is logged in
+                if(req.session && req.session.auth && req.session.auth.userName)
                 {	//write to db the new feedback
 			        pool.query("INSERT INTO reviews VALUES($1, $2, $3);", [carName, feedback, req.session.auth.userName], function (err, result) {
                     	if (err)
@@ -312,6 +311,7 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
 
                 else
                     res.status(403).send('Sorry you are not logged in. Please login to submit feedbacks');
+                
             }
         });        
     }
@@ -400,8 +400,13 @@ app.get('/login-check', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-    delete req.session.auth;
-    res.send('Logged out succesfully');
+    if(req.session && req.session.auth && req.session.auth.userName){
+        delete req.session.auth;
+    	res.send('Logged out succesfully');
+    }
+
+    else
+        res.status(403).send('Forbidden request');   
 });
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/
