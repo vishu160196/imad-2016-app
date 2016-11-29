@@ -301,12 +301,17 @@ app.get('/cars/:carName/submit_feedback', function (req, res) {
                 res.status(500).send(err.toString());
             else {
                 
-                //write to db the new feedback
-                pool.query("INSERT INTO reviews VALUES($1, $2, $3);", [carName, feedback, req.session.auth.userName], function (err, result) {
-                    if (err)
-                        res.status(500).send(err.toString());
+                if(req.session && req.session.auth && req.session.userName) //check whether client is logged in
+                {	//write to db the new feedback
+			        pool.query("INSERT INTO reviews VALUES($1, $2, $3);", [carName, feedback, req.session.auth.userName], function (err, result) {
+                    	if (err)
+                        	res.status(500).send(err.toString());
                     
-                });
+                    });
+                }
+
+                else
+                    res.status(403).send('Sorry you are not logged in. Please login to submit feedbacks');
             }
         });        
     }
