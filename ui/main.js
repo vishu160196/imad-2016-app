@@ -12,7 +12,7 @@ $(document).ready(function () {
             $("#login_message").text(`Welcome ${data}`);
 
             //activate the logout button
-            $("#logout_button").css("display", "");
+            $("#logout_button").show();
             $("#logout_button").html("<button>LOGOUT</button>");
         }
         
@@ -22,16 +22,17 @@ $(document).ready(function () {
 
     var car1 = $("#car1");
     var car2 = $("#car2");
-    car1.animate({ left: '0%' }, 3000);
+    car1.animate({ left: '0%' }, 1000);
 
-    car2.animate({ left: '80%' }, 3000);
+    car2.animate({ left: '80%' }, 1000);
     
     $("#signup_button").click(function () {
 
         var userName = $("#select_username");
         var userPassword = $("#select_password");
         var signupMessage = $("#signup_message");
-        
+        signupMessage.show();
+
         //check whether there is content in input fields
         if(userName.val()==='' || userPassword.val()==='')
         {
@@ -58,13 +59,15 @@ $(document).ready(function () {
                     signupMessage.css("color", "green");
                     signupMessage.text(data);
                     userName.val('');
-                    userPassword: userPassword.val('');
+                    userPassword.val('');
+                    ("#signup_message").hide();
+                    ("#login_message").hide();
                 },
                 error: function (data) {
                     signupMessage.css("color", "red");
                     signupMessage.text("Sorry this username is taken please try another one");
                     userName.val('');
-                    userPassword: userPassword.val('');
+                    userPassword.val('');
                 }
             });
         }
@@ -74,6 +77,8 @@ $(document).ready(function () {
         var userName = $("#username");
         var userPassword = $("#password");
         var loginMessage = $("#login_message");
+
+        loginMessage.show();
 
         //check whether there is content in input fields
         if (userName.val() === '' || userPassword.val() === '') {
@@ -95,12 +100,12 @@ $(document).ready(function () {
                 success: function (data) {
                     //render the response received and also remove the field entries                    
                     userName.val('');
-                    userPassword: userPassword.val('');
+                    userPassword.val('');
                     loginMessage.css("color", "green");
                     loginMessage.text(data);
-
+                    
                     //activate the logout button
-                    $("#logout_button").css("display", "");
+                    $("#logout_button").show();
                     $("#logout_button").html("<button>LOGOUT</button>");
                 },
                 error: function (data) {
@@ -123,29 +128,24 @@ $(document).ready(function () {
     $("#logout_button").click(function () {
 
         var logout = $("#logout_button");
+        logout.show();
+        
         $.ajax({
             url: "/logout",
             type: "GET",
-            
-            
+                       
             success: function (data) {
                 //render the response received and also remove the logout button                    
                 logout.css("color", "blue");
                 logout.text(data);
                 $("#login_message").hide();
-                
+                $("#signup_message").hide();         
             },
+
             error: function (data) {
-
                 logout.css("color", "red");
-
                 logout.text("Something went wrong please try again");
             }
         });
     });
 });
-
-
-
-
-
