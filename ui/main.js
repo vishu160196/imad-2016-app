@@ -31,7 +31,7 @@ $(document).ready(function () {
         var userName = $("#select_username");
         var userPassword = $("#select_password");
         var signupMessage = $("#signup_message");
-        signupMessage.show();
+        
 
         //check whether there is content in input fields
         if(userName.val()==='' || userPassword.val()==='')
@@ -60,14 +60,16 @@ $(document).ready(function () {
                     signupMessage.text(data);
                     userName.val('');
                     userPassword.val('');
-                    ("#signup_message").hide();
-                    ("#login_message").hide();
+                    
+                    signupMessage.show();
+                    
                 },
                 error: function (data) {
                     signupMessage.css("color", "red");
                     signupMessage.text("Sorry this username is taken please try another one");
                     userName.val('');
                     userPassword.val('');
+                    signupMessage.show();
                 }
             });
         }
@@ -78,7 +80,7 @@ $(document).ready(function () {
         var userPassword = $("#password");
         var loginMessage = $("#login_message");
 
-        loginMessage.show();
+        
 
         //check whether there is content in input fields
         if (userName.val() === '' || userPassword.val() === '') {
@@ -103,23 +105,29 @@ $(document).ready(function () {
                     userPassword.val('');
                     loginMessage.css("color", "green");
                     loginMessage.text(data);
+                    loginMessage.show();
                     
                     //activate the logout button
                     $("#logout_button").show();
                     $("#logout_button").html("<button>LOGOUT</button>");
                 },
-                error: function (data) {
+                error: function (error) {
 
                     loginMessage.css("color", "red");
-
-                    if (data.status === 404) 
+                    
+                    if (error.status === 404) 
                         loginMessage.text("There is no user by this name");
 
-                    else if (data.status === 401)
+                    else if (error.status === 401)
                         loginMessage.text("Incorrect password");
 
-                    else if (data.status === 500)
-                        loginMessage.text("Something went wrong on the server Please try again in some time");                    
+                    else if (error.status === 500)
+                        loginMessage.text("Something went wrong on the server Please try again in some time");
+
+                    else if (error.status === 403)
+                        loginMessage.text(error.responseText);
+                    
+                    loginMessage.show();                    
                 }
             });
         }
@@ -128,7 +136,7 @@ $(document).ready(function () {
     $("#logout_button").click(function () {
 
         var logout = $("#logout_button");
-        logout.show();
+        
         
         $.ajax({
             url: "/logout",
@@ -139,12 +147,14 @@ $(document).ready(function () {
                 logout.css("color", "blue");
                 logout.text(data);
                 $("#login_message").hide();
-                $("#signup_message").hide();         
+                $("#signup_message").hide();
+                logout.show();         
             },
 
             error: function (data) {
                 logout.css("color", "red");
                 logout.text("Something went wrong please try again");
+                logout.show();
             }
         });
     });
