@@ -22,9 +22,9 @@ $(document).ready(function () {
 
     var car1 = $("#car1");
     var car2 = $("#car2");
-    car1.animate({ left: '0%' }, 1000);
+    car1.animate({ left: '0%' }, 3000);
 
-    car2.animate({ left: '80%' }, 1000);
+    car2.animate({ left: '80%' }, 3000);
     
     $("#signup_button").click(function () {
 
