@@ -19,11 +19,11 @@ app.use(session({
 // create a config to configure both pooling behavior
 // and client options
 var config = {
-    user: process.env.PGUSER, //env var: PGUSER
-    database: process.env.PGDATABASE, //env var: PGDATABASE
-    password: process.env.PGPASSWORD, //env var: PGPASSWORD
-    host: 'localhost', // Server hosting the postgres database
-    port: process.env.PGPORT, //env var: PGPORT
+    user: 'vishu160196', //env var: PGUSER
+    database: 'vishu160196', //env var: PGDATABASE
+    password: process.env.DB_PASSWORD, //env var: PGPASSWORD
+    host: 'db.imad.hasura-app.io', // Server hosting the postgres database
+    port: 5432, //env var: PGPORT
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
