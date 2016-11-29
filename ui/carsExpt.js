@@ -85,7 +85,12 @@ $(document).ready(function () {
                 var matter = "";
 
                 for (var i = 0; i < prevFeedbacks.length; i++) {
-                    matter += `<img src="/person.png" style="float:left"/><div style="padding-left:50px">${prevFeedbacks[i]}</div><br/><br/>`;
+
+                    //split by $ the elements of prevFeedbacks[i]
+                    var userName = prevFeedbacks[i].split('$')[1]; 
+                    var userFeedback = prevFeedbacks[i].split('$')[0]; 
+                    
+                    matter += `<img src="/person.png" style="float:left"/><div style="padding-left:50px"><span style="color: green; max-width:458px">${userName}</span><br><span style="max-width:458px">${userFeedback}</span></div><br/><br/>`;
                     feedbacks.innerHTML = matter;
                 }
             }
@@ -98,17 +103,23 @@ $(document).ready(function () {
     });
 
     $("#submitButton").click(function () {
+   
+        $.ajax({
+            url: "/login-check",
+            type: "GET",
+            success: function(data){
+                var userName = data;
+                var feedback = document.getElementById("feedback").value;
+                var request = new XMLHttpRequest;
+                $("#prevFeedbacks").append(`<img src="/person.png" style="float:left"/><div style="padding-left:50px"><span style="color: green; max-width:458px">${userName}</span><br><span style="max-width:458px">${feedback}</span></div><br/><br/>`);
 
-        
-
-        var feedback = document.getElementById("feedback").value;
-        var request = new XMLHttpRequest;
-        $("#prevFeedbacks").prepend(`<img src="/person.png" style="float:left"/><div style="padding-left:50px">${feedback}</div><br/><br/>`);
-
-        request.open("GET", `/cars/${carName}/submit_feedback?feedback=` + feedback, true);
-        request.send(null);
-        $("#feedback").val("");
-        $("#submitButton").css("display", "none");
+                request.open("GET", `/cars/${carName}/submit_feedback?feedback=` + feedback, true);
+                request.send(null);
+                $("#feedback").val("");
+                $("#submitButton").css("display", "none");
+            }   
+        });
+    
     });
 
     $("#feedback").click(function appearCommentButton() {
