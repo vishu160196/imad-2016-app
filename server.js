@@ -365,12 +365,13 @@ app.post('/login', function (req, res) {
     var userName = req.body.userName;
     var userPassword = req.body.userPassword;
 
-
-    pool.query("SELECT * FROM users WHERE user_name = $1", [userName], function (err, result) {
-        if (err) 
+    //start a session only if there is no earlier session
+    if(!req.session.auth){
+        pool.query("SELECT * FROM users WHERE user_name = $1", [userName], function (err, result){
+           if (err) 
             res.status(500).send(err.toString());
-        
-        else {
+
+           else {
             if (result.rows.length === 0)
                 res.status(404).send('Username not found');
 
@@ -385,14 +386,20 @@ app.post('/login', function (req, res) {
                     //start session
                     req.session.auth = {userName: result.rows[0].user_name};
 
-                    res.send(`Welcome ${userName}`);
+                    res.send(`Logged in as ${userName}`);
                 }
-             
+            
                 else
                     res.status(401).send("Incorrect password");                
             }
-        }
-    });
+            }
+        });
+    }
+
+    else{
+        res.status(403).send(`You are already logged in as ${req.session.auth.userName} first logout then try logging in again`);
+    }
+    
 });
 
 app.get('/login-check', function (req, res) {
